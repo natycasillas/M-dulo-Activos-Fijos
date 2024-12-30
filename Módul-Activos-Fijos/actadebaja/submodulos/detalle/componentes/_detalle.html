@@ -1,0 +1,77 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column header="C&oacute;digo de Barras" [style]="{'width':'120px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.mdatos.cbarras" maxlength="30" style="text-align:right" (blur)="codigoBlur(reg,index)"
+              (focus)="codigoFocus(reg,index)" (keyup.enter)="codigoBlur(reg,index)"  />
+          </ng-template>
+        </p-column> 
+        <p-column field="mdatos.nproducto" header="Nombre" [style]="{'width':'180px'}"></p-column>
+   
+        <p-column field="mdatos.stock" header="Stock"  hidden = "true" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+              {{reg.mdatos.stock | number:'1.2-2'}}
+          </ng-template>
+      </p-column>    
+      <p-column  header="Observaci&oacute;n" [style]="{'width':'180px'}">
+        <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+          <input type="text" pInputText [(ngModel)]="reg.mdatos.infoadicional" maxlength="1000" style="text-align:right" mayusculas />
+        </ng-template>
+      </p-column>
+      <p-column field="vunitario" header="V. Unitario"  [style]="{'text-align':'right','width':'90px'}">
+        <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.mdatos.vunitario | number:'1.2-2'}}
+        </ng-template>
+    </p-column>
+        <p-column [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;">
+        
+        </p-footerColumnGroup>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="agregarfila" name="agregarfila" pButton icon="ui-icon-add" (click)="agregarFila()" label="Agregar Fila" class="f-btn f-float-left orange-btn"></button>
+              <button type="button" id="button" name="button" pButton icon="ui-icon-search" (click)="crearNuevo()" label="Buscar Producto" class="f-btn f-float-left orange-btn"></button> 
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+
+    <app-lov-codificados (eventoCliente)=fijarLovCodificadosSelec($event)></app-lov-codificados>
+    <p-dialog header="Datos detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+      >
+      <form #formDialogo="ngForm">
+        <div class="f-dialogo" style="max-width:700px">
+          <div class="f-datacontent ui-g ui-fluid">
+            <div class="ui-g-12 ui-g-nopad">
+              <div class="ui-g-12 ui-md-2">
+                <label for="codigo" class="ui-outputlabel required">Código</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <input id="cbarras" name="cbarras" type="text" pInputText [(ngModel)]="registro.mdatos.cbarras" required [readOnly]="true" />
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input type="text" pInputText id="nproducto" name="nproducto" [(ngModel)]="registro.mdatos.nproducto" [readOnly]="true" />
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" id="lovcodificados" name="lovcodificados" (click)="mostrarlovcodificados()" icon="ui-icon-directions"></button>
+              </div>
+            </div>
+
+          </div>
+          <footer>
+            <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+          </footer>
+        </div>
+      </form>
+    </p-dialog>
+  </div>
+</div>

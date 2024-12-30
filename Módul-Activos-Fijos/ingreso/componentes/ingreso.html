@@ -1,0 +1,285 @@
+<app-ges-gestordocumental (eventoCliente)=fijarLovGestorDocumental($event)></app-ges-gestordocumental>
+
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!tienekardex && !nuevo && !eliminado" pButton type="button" label="Eliminar Ingreso" style="position: absolute; right: 375px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="eliminarIngreso()"></button>
+
+  <button *ngIf="!tienekardex && !nuevo && !eliminado" pButton type="button" label="Finalizar Ingreso" style="position: absolute; right: 240px;"
+    class="f-btn green-btn" icon="ui-icon-save" (click)="finalizarIngreso()"></button>
+
+  <button *ngIf="!tienekardex && !eliminado" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;"
+    class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cingreso" class="ui-outputlabel ">Ingreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cingreso"
+          [readOnly]="true" />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fechaingreso" class="ui-outputlabel required">Fecha de Ingreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fechaingreso" name="fechaingreso" [(ngModel)]="cabeceraComponent.registro.fechaingreso"
+        [showIcon]="true" [dateFormat]="formatofecha"[monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es"
+        required></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-md-2"></div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="fechafactura" class="ui-outputlabel required">Fecha Factura</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fechafactura" name="fechafactura" [(ngModel)]="cabeceraComponent.registro.fechafactura"
+        [showIcon]="true" [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es"
+        required></p-calendar>
+    </div>
+  </div>
+<!--
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="memoautorizacion" class="ui-outputlabel required">Doc. autorización</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="memoautorizacion" name="memoautorizacion" required maxlength="50" [(ngModel)]="cabeceraComponent.registro.memoautorizacion"
+        mayusculas />
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="ordendecompra" class="ui-outputlabel required">Ord.Comp/Contrato</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="ordendecompra" name="ordendecompra" maxlength="50" [(ngModel)]="cabeceraComponent.registro.ordendecompra"
+        mayusculas required />
+    </div>
+  </div>
+-->
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="facturanumero" class="ui-outputlabel required">Factura número</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <p-inputMask id="facturanumero" name="facturanumero" [(ngModel)]="cabeceraComponent.registro.facturanumero" mask="999-999-999999999"
+        [disabled]="!editable"></p-inputMask>
+    </div>
+
+    <div class="ui-g-12 ui-md-1"></div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="cpersonaproveedor" class="ui-outputlabel required">Proveedor</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input id="npersonaproveedor" name="npersonaproveedor" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.mdatos.npersonaproveedor"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarlovproveedores()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-proveedores (eventoCliente)=fijarLovProveedoresSelec($event)></app-lov-proveedores>
+
+  </div>
+
+
+  <div class="ui-g-12 ui-g-nopad">
+    <!--
+    <div class="ui-g-12 ui-md-2">
+      <label for="numerooficio" class="ui-outputlabel required">Doc. Requerimiento</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="numerooficio" name="numerooficio" required maxlength="50" [(ngModel)]="cabeceraComponent.registro.numerooficio"
+        mayusculas />
+    </div>
+  
+    <div class="ui-g-12 ui-md-1"></div>
+    -->
+    <div class="ui-g-12 ui-md-2">
+      <label for="cpersonaproveedor" class="ui-outputlabel required">Administrador Contrato</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input id="nfuncionario" name="nfuncionario" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionario"
+        [readOnly]="true" />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+    </div>
+    <app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="tipoingresocdetalle" class="ui-outputlabel required">Tipo de Ingreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <p-dropdown id="tipoingresocdetalle" name="tipoingresocdetalle" [options]="ltipoingresocdetalle" [(ngModel)]="cabeceraComponent.registro.tipoingresocdetalle"
+        required [filter]="true" [readonly]="!nuevo"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="tienekardex" class="ui-outputlabel">Registr&oacute; Kardex</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox id="tienekardex" name="tienekardex" [(ngModel)]="cabeceraComponent.registro.tienekardex" binary="false"
+        disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="eliminado" class="ui-outputlabel">Eliminado</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox id="eliminado" name="eliminado" [(ngModel)]="cabeceraComponent.registro.eliminado" binary="false"
+        disabled="true"></p-checkbox>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="contabilizar" class="ui-outputlabel">Contabilizar</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <p-checkbox id="contabilizar" name="contabilizar" [(ngModel)]="cabeceraComponent.registro.contabilizar" binary="false"></p-checkbox>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="comentario" class="ui-outputlabel required">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario"
+        required mayusculas maxlength="500" rows="1" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+  <!-- <span>
+    <button type="button" label="Digitalizar Factura" pButton (click)="mostrarLovGestorDocumental(cabeceraComponent.registro)"
+      icon="ui-icon-file-upload"></button>
+  </span> -->
+  <span *ngIf="!estaVacio(cabeceraComponent.registro.cgesarchivo)">
+    <button type="button" label="Descargar Factura" pButton (click)="descargarArchivo(cabeceraComponent.registro.cgesarchivo, true)"
+      icon="ui-icon-file-download">
+    </button>
+  </span>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="subtotalivacero" class="ui-outputlabel">SUBTOTAL 0%</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="subtotalivacero" style="text-align: right;" name="subtotalivacero" [ngModel]="cabeceraComponent.registro.subtotalivacero | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="subtotaliva" class="ui-outputlabel">SUBTOTAL</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-dropdown id="porcentajeiva" name="porcentajeiva" [options]="lporcentajeivacdetalle" [(ngModel)]="cabeceraComponent.registro.porcentajeiva"
+          required [filter]="true" (onChange)="calcularTotales()"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <label for="subtotaliva" class="ui-outputlabel">%</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="subtotaliva" style="text-align: right;" name="subtotaliva" [ngModel]="cabeceraComponent.registro.subtotaliva | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="subtotalnosujetoiva" class="ui-outputlabel">SUBTOTAL NO SUJETO DE IVA</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="subtotalnosujetoiva" style="text-align: right;" name="subtotalnosujetoiva" [ngModel]="cabeceraComponent.registro.subtotalnosujetoiva | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="subtotalsinimpuestos" class="ui-outputlabel">SUBTOTAL SIN IMPUESTOS</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="subtotalsinimpuestos" style="text-align: right;" name="subtotalsinimpuestos" [ngModel]="cabeceraComponent.registro.subtotalsinimpuestos | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="descuento" class="ui-outputlabel">DESCUENTO</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="descuento" style="text-align: right;" name="descuento" numeroPositivo [(ngModel)]="cabeceraComponent.registro.descuento"
+          maxlength="20" (ngModelChange)="cambiarMonto()" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="ice" class="ui-outputlabel">ICE</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="ice" style="text-align: right;" name="ice" numeroPositivo [(ngModel)]="cabeceraComponent.registro.ice"
+          maxlength="20" (ngModelChange)="cambiarMonto()" (onChange)="calcularTotales()" />
+      </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="iva" class="ui-outputlabel">IVA</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="iva" style="text-align: right;" name="iva" [ngModel]="cabeceraComponent.registro.iva | number : '1.2-2'"
+          maxlength="20" (ngModelChange)="cambiarMonto()" readOnly="true" />
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-6"></div>
+      <div class="ui-g-12 ui-md-2">
+        <label for="valortotal" class="ui-outputlabel">VALOR TOTAL</label>
+      </div>
+      <div class="ui-g-12 ui-md-1"></div>
+      <div class="ui-g-12 ui-md-2">
+        <input pInputText id="valortotal" style="text-align: right;" name="valortotal" [ngModel]="cabeceraComponent.registro.valortotal | number : '1.2-2'"
+          maxlength="20" readOnly="true" />
+      </div>
+    </div>
+  </div>
+
+</form>

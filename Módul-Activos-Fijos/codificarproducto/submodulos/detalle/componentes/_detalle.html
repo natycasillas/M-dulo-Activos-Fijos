@@ -1,0 +1,80 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px" resizableColumns="true">
+        <p-header>
+          <div class="ui-table-title">Productos a Codificar</div>
+          <acciones-consulta [componente]="componentehijo" [anterior]="true" [siguiente]="true"></acciones-consulta>
+        </p-header>
+        <p-column field="idreg" header="idreg" hidden="true"></p-column>
+        <p-column field="cbarras" header="C&oacute;digo de barras" [style]="{'width':'120px'}">
+        <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+          <input type="text" required pInputText [(ngModel)]="reg.mdatos.cbarras"  maxlength="1000" style="text-align:right"
+          />
+        </ng-template>
+        </p-column>
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        
+        <p-column field="nombre" header="Nombre" [style]="{'width':'100px'}"></p-column>
+        <p-column field="fcompra" header="F. Compra" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <span>{{reg.fcompra | date: 'yyyy-MM-dd '}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="fdepreciacion" header="F. Depreciación" [style]="{'width':'70px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-calendar id="fdepreciacion" name="fdepreciacion" [(ngModel)]="reg.mdatos.fdepreciacion" [showIcon]="true"
+            [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es" required ></p-calendar>
+          </ng-template>
+        </p-column>
+
+        <p-column header="Serial" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" required pInputText [(ngModel)]="reg.mdatos.serial" mayusculas maxlength="50" style="text-align:right"
+            />
+          </ng-template>
+        </p-column>
+        
+        <p-column header="Marca" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="marcacdetalle" name="marcacdetalle" [options]="lmarca" [(ngModel)]="reg.mdatos.marcacdetalle"
+              [filter]="true" appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Info Adicional" [style]="{'width':'140px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" required pInputText [(ngModel)]="reg.mdatos.infoadicional" mayusculas maxlength="1000" style="text-align:right"
+            />
+          </ng-template>
+        </p-column>
+        <p-column header="Comentario" [style]="{'width':'140px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" required pInputText [(ngModel)]="reg.mdatos.comentario" mayusculas maxlength="500" style="text-align:right"
+            />
+          </ng-template>
+        </p-column>
+        <p-column header="Color" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" required pInputText [(ngModel)]="reg.mdatos.color" mayusculas maxlength="50" style="text-align:right"
+            />
+          </ng-template>
+        </p-column>
+        <p-column header="Estado" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lestadocdetalle" [(ngModel)]="reg.mdatos.estadocdetalle"
+              [filter]="true" appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+        <p-column header="Ubicación" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <p-dropdown id="ubicacioncdetalle" name="ubicacioncdetalle" [options]="lubicacioncdetalle" [(ngModel)]="reg.mdatos.ubicacioncdetalle"
+              [filter]="true" appendTo="body"></p-dropdown>
+          </ng-template>
+        </p-column>
+        
+        
+      </p-dataTable>
+    </div>
+
+  </div>
+</div>

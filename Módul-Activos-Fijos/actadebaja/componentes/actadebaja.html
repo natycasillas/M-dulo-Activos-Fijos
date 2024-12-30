@@ -1,0 +1,124 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  <button *ngIf="!grabo && !tienekardex"  pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cegreso3" class="ui-outputlabel ">Acta de Baja</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cegreso" name="cegreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cegreso" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovegresos" name="lovegresos" (click)="mostrarlovegresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-egresos (eventoCliente)=fijarLovEgresosSelec($event)></app-lov-egresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-1">
+      <label for="cusuariorecibe" class="ui-outputlabel required">Solicitado por</label>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+    
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input id="nfuncionario" name="nfuncionario" type="text" pInputText [(ngModel)]="registro.mdatos.nfuncionario" [readOnly]="true"
+      />
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+    </div>
+  <app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+    <div class="ui-g-12 ui-md-1">
+        <label for="cproceso" class="ui-outputlabel required">Area requirente</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+
+      </div>
+      <div class="ui-g-12 ui-md-3">
+          <input id="nproceso" name="nproceso" type="text" pInputText 
+          [(ngModel)]="registro.mdatos.nproceso" [readOnly]="true"/>  
+      </div>     
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-1">
+          <label for="ccargo" class="ui-outputlabel required">Cargo</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+        </div>
+        <div class="ui-g-12 ui-md-3">
+            <input id="ncargo" name="ncargo" type="text" pInputText 
+            [(ngModel)]="registro.mdatos.ncargo" [readOnly]="true"/>  
+        </div>
+        <div class="ui-g-12 ui-md-1"></div>
+        <div class="ui-g-12 ui-md-2">
+          <label for="fecha" class="ui-outputlabel required ">Fecha</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-calendar id="fecha" name="fecha" [(ngModel)]="cabeceraComponent.registro.fecha" [showIcon]="true" [dateFormat]="formatofecha" 
+          [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es" required></p-calendar>
+        </div>
+    </div>
+    <!--
+        <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="numeromemo" class="ui-outputlabel required" >N&uacute;mero Memo</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numeromemo" name="numeromemo" required maxlength="30" [(ngModel)]="cabeceraComponent.registro.numeromemo" mayusculas />
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="numerooficio" class="ui-outputlabel required">N&uacute;mero Oficio</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numerooficio" name="numerooficio" required maxlength="30" [(ngModel)]="cabeceraComponent.registro.numerooficio" mayusculas/>
+    </div>
+  </div>
+ -->
+
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="tienekardex" class="ui-outputlabel">Registr&oacute; Kardex</label>
+      </div>
+      <div class="ui-g-12 ui-md-1">
+        <p-checkbox id="tienekardex" name="tienekardex" [(ngModel)]="cabeceraComponent.registro.tienekardex" binary="false" disabled="true"></p-checkbox>
+      </div>
+
+    </div>
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="comentario" class="ui-outputlabel">Observaciones</label>
+      </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-12">
+          <textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario" required mayusculas
+          maxlength="500" rows="1" [disabled]="!editable"></textarea>
+      </div>
+  </div>
+
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</form>

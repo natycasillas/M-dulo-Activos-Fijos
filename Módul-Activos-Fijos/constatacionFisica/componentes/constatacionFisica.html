@@ -1,0 +1,161 @@
+<div class="ui-g-12 ui-md-2"></div>
+<div class="f-contenedor-transaccion ui-g-12 ui-md-8">
+	<div class="f-acciones-cabecera ui-g ui-fluid">
+		<acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+	</div>
+
+	<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1 f-center-items">
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fdesde" class="ui-outputlabel">Fecha Desde:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fdesde" [(ngModel)]="mfiltros.finicio" [showIcon]="true" [dateFormat]="formatofecha"
+				[monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es"></p-calendar>
+			</div>
+			<div class="ui-g-12 ui-md-2">
+				<label for="fhasta" class="ui-outputlabel">Fecha Hasta:</label>
+			</div>
+			<div class="ui-g-6 ui-md-4">
+				<p-calendar name="fhasta" [(ngModel)]="mfiltros.ffin" [showIcon]="true" [dateFormat]="formatofecha"
+				[monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es"></p-calendar>
+			</div>
+		</div>
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="cusuariorecibe" class="ui-outputlabel">Usuario</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="cavala" name="cavala" type="text" pInputText [(ngModel)]="registro.cusuarioavala" [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-8">
+				<input id="uavala" name="uavala" type="text" pInputText [(ngModel)]="registro.mdatos.nfuncionarioavala" [readOnly]="true"
+				/>
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovFuncionario" name="lovFuncionario" (click)="mostrarLovFuncionario()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-funcionarios (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="fpkcproveedor" class="ui-outputlabel">Proveedor</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="fpkcproveedor" name="fpkcproveedor" type="text" pInputText [(ngModel)]="mcampos.cpersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-8">
+				<input type="text" pInputText id="npersona" name="npersona" [(ngModel)]="mcampos.npersona" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovproveedores" name="lovproveedores" (click)="mostrarLovProveedores()" icon="ui-icon-directions"></button>
+			</div>
+			<app-lov-proveedores (eventoCliente)=fijarLovProveedoresSelect($event)></app-lov-proveedores>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-md-1">
+				<label for="ccuenta" class="ui-outputlabel">Cuenta</label>
+			</div>
+			<div class="ui-g-2 ui-md-2">
+				<input id="ccuenta" name="ccuenta" type="text" pInputText [(ngModel)]="registro.ccuenta" [readOnly]="true" />
+			</div>
+			<div class="ui-g-9 ui-md-8">
+				<input type="text" pInputText id="ncuenta" name="ncuenta" [(ngModel)]="registro.mdatos.ncuenta" [readOnly]="true" />
+			</div>
+			<div class="ui-g-1 ui-md-1">
+				<button pButton type="button" id="lovcuentasContables" name="lovcuentasContables" (click)="mostrarlovcuentasContables()"
+				 icon="ui-icon-directions"></button>
+			</div>
+			
+			<app-lov-cuentas-contables (eventoCliente)=fijarLovCuentasContablesSelec($event)></app-lov-cuentas-contables>
+		</div>
+
+		<div class="ui-g-12 ui-g-nopad">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="tipo" class="ui-outputlabel">Tipo:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-dropdown id="tipoproducto" name="tipoproducto" [options]="ltipoproducto" [(ngModel)]="mfiltros.ctipoproducto" [filter]="true"></p-dropdown>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="facturanumero" class="ui-outputlabel">Factura Número:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="facturanumero" name="facturanumero" type="text" pInputText [(ngModel)]="mfiltros.facturanumero" mayusculas maxlength="20"
+					/>
+				</div>
+			</div>
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="codigo" class="ui-outputlabel">Código</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="mfiltros.codigo" mayusculas maxlength="50" />
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="nombre" class="ui-outputlabel">Nombre:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="nombre" name="nombre" type="text" pInputText [(ngModel)]="mfiltros.nombre" mayusculas maxlength="100" />
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="serial" class="ui-outputlabel">Serial</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="serial" name="serial" type="text" pInputText [(ngModel)]="mfiltros.serial" mayusculas maxlength="50" />
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="estado" class="ui-outputlabel">Estado</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-dropdown id="estadocdetalle" name="estadocdetalle" [options]="lestadocdetalle" [(ngModel)]="mfiltros.estadocdetalle"
+              [filter]="true"  appendTo="body"> </p-dropdown>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="marca" class="ui-outputlabel">Marca</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-dropdown id="marcacdetalle" name="marcacdetalle" [options]="lmarcacdetalle" [(ngModel)]="mfiltros.marcacdetalle" [filter]= "true"></p-dropdown>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="modelo" class="ui-outputlabel">Modelo:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<input id="modelo" name="modelo" type="text" pInputText [(ngModel)]="mfiltros.modelo" mayusculas maxlength="100" />
+				</div>
+			</div>
+		
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-md-1">
+					<label for="tipo" class="ui-outputlabel">Ubicación:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-dropdown id="ubicacion" name="ubicacion" [options]="lubicaciones" [(ngModel)]="mfiltros.ubicacion" [filter]="true"></p-dropdown>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label for="fcustodio" class="ui-outputlabel">Custodio:</label>
+				</div>
+				<div class="ui-g-6 ui-md-4">
+					<p-dropdown id="ccustodio" name="custodio" [options]="lcustodio" [(ngModel)]="custodio" [filter]="true"></p-dropdown>
+				</div>
+				<div class="ui-g-6 ui-md-2">
+					<label for="estado" class="ui-outputlabel">Estado Activo:</label>
+				</div>
+				<div class="ui-g-6 ui-md-1">
+					<p-checkbox id="estado" name="estado" [(ngModel)]="this.estadoActivo" binary="false"></p-checkbox>
+				</div>
+			</div>
+		</div>
+	</form>
+	<app-jasper [componente]="componentehijo" [formulario]="formFiltros" [cajapdf]="false" [mostrarcaja]="true" [pdf]="false"
+	 [excel]="false"></app-jasper>
+</div>

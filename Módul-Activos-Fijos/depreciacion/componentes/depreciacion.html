@@ -1,0 +1,100 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+    <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+    <button *ngIf="!nuevo && !eliminado && (mcampos.ccomprobante === undefined)" pButton type="button" label="Eliminar" style="position: absolute; right: 375px;" class="f-btn green-btn" icon="ui-icon-save" (click)="eliminarDepreciacion()"></button>
+
+    <button *ngIf="!nuevo && !eliminado && (mcampos.ccomprobante === undefined)" pButton type="button" label="Contabilizar" style="position: absolute; right: 240px;" class="f-btn green-btn" icon="ui-icon-save" (click)="contabilizarDepreciacion()"></button>
+
+    <button *ngIf="!eliminado && (mcampos.ccomprobante === undefined)" pButton type="button" label="Guardar cambios" style="position: absolute; right: 105px;" class="f-btn teal-btn" icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-2">
+                <label for="cdepreciacion" class="ui-outputlabel ">C&oacute;digo Depreciaci&oacute;n</label>
+            </div>
+            <div class="ui-g-2 ui-md-2">
+                <input id="cdepreciacion" name="cdepreciacion" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cdepreciacion" [readOnly]="true" />
+            </div>
+            <div class="ui-g-1 ui-md-1">
+                <button pButton type="button" id="lovdepreciaciones" name="lovdepreciaciones" (click)="mostrarlovdepreciaciones()" icon="ui-icon-directions"></button>
+            </div>
+            <app-lov-depreciaciones (eventoCliente)=fijarLovDepreciacionesSelec($event)></app-lov-depreciaciones>
+        </div>
+
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12" style="clear:both;float:right;width:150px">
+            <app-jasper [componente]="componentehijo" [formulario]="formFiltros" [pdf]="true" [excel]="true"></app-jasper>
+        </div>
+    </div>
+
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+            <label for="fcontable" class="ui-outputlabel required">Periodo [AAAAMM]</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input id="periodo" name="periodo" type="text" maxlength="6" pInputText [(ngModel)]="cabeceraComponent.registro.periodo" [readOnly]="false" />
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="fcontable" class="ui-outputlabel required">Mes</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <p-dropdown id="mes" name="mes" [options]="lmes" [(ngModel)]="mcampos.mes" required [filter]="true"></p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <label for="fcontable" class="ui-outputlabel required">Centro de costos</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <p-dropdown id="mes" name="mes" [options]="lcentro" [(ngModel)]="cabeceraComponent.registro.centrocostoscdetalle" required [filter]="true" (onChange)="validarPeriodo()"></p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+            <button *ngIf="mostrarCargarAF" pButton type="button" label="Cargar Activos Fijos" class="f-btn green-btn" (click)="cargarAF()"></button>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+            <label for="estadocdetalle" class="ui-outputlabel">Estado</label>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+            <input id="estadocdetalle" name="estadocdetalle" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.estadocdetalle" disabled="true" />
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-2">
+            <label for="comentario" class="ui-outputlabel required">Comentario</label>
+        </div>
+    </div>
+    <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-12">
+            <textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario" required mayusculas maxlength="500" rows="1" [disabled]="!editable"></textarea>
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+        <div class="ui-g-4 ui-g-nopad">
+            <div class="ui-g-4 ui-md-4">
+                <label for="ccompcontable" class="ui-outputlabel">Comprobante Contable</label>
+            </div>
+            <div class="ui-g-8 ui-md-8">
+                <input pInputText id="ccompcontable" name="ks" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true" />
+            </div>
+        </div>
+    </div>
+
+
+    <app-cabecera></app-cabecera>
+    <div>
+        <p-accordion [multiple]="true">
+            <p-accordionTab header="Detalle Productos">
+                <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+
+</form>

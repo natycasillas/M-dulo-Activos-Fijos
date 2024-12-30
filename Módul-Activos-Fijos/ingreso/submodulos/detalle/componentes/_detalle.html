@@ -1,0 +1,107 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+      <p-dataTable [value]="lregistros" [responsive]="true" scrollable="true" scrollHeight="250px">
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column field="mdatos.codigo" header="Código" [style]="{'width':'100px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-index="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.mdatos.codigo" maxlength="30" style="text-align:right" (blur)="codigoBlur(reg,index)"
+              (focus)="codigoFocus(reg,index)" />
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.nproducto" header="Nombre" [style]="{'width':'180px'}"></p-column>
+        <p-column header="Grava IVA" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <p-checkbox [ngModel]="reg.mdatos.gravaiva" binary="false" [disabled]="true"></p-checkbox>
+          </ng-template>
+        </p-column>
+        <p-column header="Cantidad" [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.cantidad" entero maxlength="14" style="text-align:right" (ngModelChange)="cambiarCantidad(i,$event)"
+            />
+          </ng-template>
+        </p-column>       
+        <p-column field="vunitario" header="V.Unitario" [style]="{'text-align':'right','width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData" let-i="rowIndex">
+            <input type="text" pInputText [(ngModel)]="reg.vunitario" numeroDecimal7 maxlength="14" style="text-align:right" (ngModelChange)="cambiarCantidad(i,$event)"
+            />
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.vtotal" header="V.Total"  [style]="{'text-align':'right','width':'60px'}">
+          <ng-template let-reg="rowData" pTemplate="body">
+            {{reg.mdatos.vtotal | number:'1.2-2'}}
+        </ng-template>    
+        </p-column>
+        <p-column [style]="{'width':'60px'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <p-footerColumnGroup style="color:blue;">
+          <p-row>
+            <p-column [style]="{'width':'140px'}"></p-column>
+            <p-column footer="Totales" [style]="{'color':'blue','font-size':'12px','width':'290px'}"></p-column>
+            <p-column [footer]="totalCantidad | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [footer]="totalValorUnitario | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [footer]="totalValorTotal | number : '1.2-2'" [style]="{'color':'blue','text-align':'right','font-size':'12px','width':'60px'}"></p-column>
+            <p-column [style]="{'width':'70px'}"></p-column>
+          </p-row>
+        </p-footerColumnGroup>
+        <p-footer>
+          <div class="ui-helper-clearfix" style="width: 100%" *ngIf="ins">
+            <button type="button" id="agregarfila" name="agregarfila" pButton icon="ui-icon-add" (click)="agregarFila()" label="Agregar Fila"
+              class="f-btn f-float-left orange-btn"></button>
+            <button type="button" id="button" name="button" pButton icon="ui-icon-search" (click)="crearNuevo()" label="Buscar Producto" class="f-btn f-float-left orange-btn"></button>
+          </div>
+        </p-footer>
+      </p-dataTable>
+    </div>
+<app-lov-productos (eventoCliente)=fijarLovProductosSelec($event)>
+</app-lov-productos>
+<p-dialog header="Datos detalle" [(visible)]="mostrarDialogoGenerico" [modal]="true" [responsive]="true" [positionTop]="120"
+  (onHide)="cerrarDialogo()">
+  <form #formDialogo="ngForm">
+    <div class="f-dialogo" style="max-width: 700px">
+      <div class="f-datacontent ui-g ui-fluid">
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="codigo" class="ui-outputlabel required">Código</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="codigo" name="codigo" type="text" pInputText [(ngModel)]="registro.mdatos.codigo" required [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-8">
+            <input type="text" pInputText id="nombre" name="nombre" [(ngModel)]="registro.mdatos.nproducto" [readOnly]="true" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" id="lovproductos" name="lovproductos" (click)="mostrarlovproductos()" icon="ui-icon-directions"></button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-g-nopad">
+          <div class="ui-g-12 ui-md-1">
+            <label for="cantidad" class="ui-outputlabel required">Cantidad</label>
+          </div>
+          <div class="ui-g-12 ui-md-2">
+            <input id="cantidad" name="cantidad" type="text" pInputText [(ngModel)]="registro.cantidad" required entero maxlength="10"
+              [readOnly]="false" />
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <label for="vunitario" class="ui-outputlabel ">V.Unitario</label>
+          </div>
+          <div class="ui-g-2 ui-md-2">
+            <input id="vunitario" name="vunitario" type="text" pInputText [(ngModel)]="registro.vunitario" required numeroDecimal7 maxlength="10"
+              [readOnly]="false" />
+          </div>
+        </div>
+      </div>
+      <footer>
+        <acciones-dialogo [formAcciones]="formDialogo" [componente]="componentehijo"></acciones-dialogo>
+      </footer>
+    </div>
+  </form>
+</p-dialog>
+</div>
+</div>

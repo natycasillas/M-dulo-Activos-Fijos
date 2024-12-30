@@ -1,0 +1,74 @@
+<div class="f-contenedor-transaccion">
+  <div class="f-datacontent ui-g ui-fluid">
+    <div class="ui-g-12">
+
+      <p-dataTable [value]="lregistros" sortField="ccuentadepreciacion" rowGroupMode="subheader"
+        groupField="ccuentadepreciacion" expandableRowGroups="true" [sortableRowGroup]="false">
+        <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['ccuentadepreciacion']}} -
+            {{ rowData['mdatos'].ncuenta}}
+         
+        </ng-template>
+        <p-column field="cproducto" header="cproducto" hidden="true"></p-column>
+        <p-column field="cbarras" header="Código" [style]="{'width':'8%'}">
+        </p-column>
+        <p-column field="mdatos.nombre" header="Nombre" [style]="{'width':'15%'}"></p-column>
+        <p-column field="ccuentadepreciacion" header="C.Deprec" [style]="{'width':'6%'}"></p-column>
+        <p-column field="ccuentadepreciacionacum" header="C.Deprec Acum" [style]="{'width':'6%'}"></p-column>
+        <p-column field="mdatos.vidautil" header="Vida útil" [style]="{'width':'6%'}"></p-column>
+        <p-column field="mdatos.valorcompra" header="V. Compra" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valorcompra | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="V.Dep. Acm Ant" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valordepreciable | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.valordepperiodo" header="V.Dep. periodo" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valordepperiodo | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column header="V.Dep. Acum" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valdepacumulada | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column field="mdatos.valorlibros" header="V.Libros" [style]="{'text-align':'right','width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            {{ reg.mdatos.valorlibros | number : '1.2-2' }}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'6%'}">
+          <ng-template pTemplate="body" let-reg="rowData">
+            <div class="f-table-actions">
+              <acciones-reg [componente]="componentehijo" [reg]="reg" [mostrarEditar]="false"></acciones-reg>
+            </div>
+          </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter" let-car>
+          <td colspan="5" style="text-align:right">Total </td>
+          <td style="text-align:right">{{totalVUnitario(car['ccuentadepreciacion']) |  number : '1.2-2' }}</td>
+          <td style="text-align:right">{{totalVDepAcumAnt(car['ccuentadepreciacion']) |  number : '1.2-2' }}</td>
+          <td style="text-align:right">{{calculateGroupTotal(car['ccuentadepreciacion']) |  number : '1.2-2' }}</td>
+          <td style="text-align:right">{{totalVDepAcum(car['ccuentadepreciacion']) |  number : '1.2-2' }}</td>
+          <td style="text-align:right">{{totalVLibros(car['ccuentadepreciacion']) |  number : '1.2-2' }}</td>
+        </ng-template>
+        <p-footerColumnGroup>
+          <p-row>
+            <p-column footer="Total General:" colspan="5"></p-column>
+            <p-column footer="{{totalVUnitario('total') |  number : '1.2-2' }}"></p-column>
+            <p-column footer="{{totalVDepAcumAnt('total') |  number : '1.2-2' }}"></p-column>
+            <p-column footer="{{calculateGroupTotal('total') |  number : '1.2-2' }}"></p-column>
+            <p-column footer="{{totalVDepAcum('total') |  number : '1.2-2' }}"></p-column>
+            
+            <p-column footer="{{totalVLibros('total') |  number : '1.2-2' }}"></p-column>
+
+          </p-row>
+        </p-footerColumnGroup>
+
+      </p-dataTable>
+    </div>
+  </div>
+</div>

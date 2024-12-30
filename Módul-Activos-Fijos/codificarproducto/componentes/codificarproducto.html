@@ -1,0 +1,71 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+
+  <button *ngIf="!grabo" pButton type="button" label="Guardar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cingreso" class="ui-outputlabel ">Ingreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cingreso" name="cingreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cingreso" [readOnly]="true"
+        />
+      </div>
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovingresos" name="lovingresos" (click)="mostrarlovingresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-ingresos (eventoCliente)=fijarLovIngresosSelec($event)></app-lov-ingresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros" [pdf]="false" [excel]="false"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fechaingreso" class="ui-outputlabel required">Fecha de Ingreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fechaingreso" name="fechaingreso" [(ngModel)]="cabeceraComponent.mcampos.fechaingreso" [showIcon]="true"
+        [dateFormat]="formatofecha" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es" required ></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+    <div class="ui-g-12 ui-md-2">
+      <label for="facturanumero" class="ui-outputlabel">Factura número</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="facturanumero" name="facturanumero" maxlength="20" [(ngModel)]="cabeceraComponent.registro.facturanumero"
+      />
+    </div>
+  </div>
+<!--
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="memocodificacion" class="ui-outputlabel required">Memo Codificaci&oacute;n</label>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <input type="text" pInputText id="memocodificacion" name="memocodificacion" maxlength="50" [(ngModel)]=" registro.mdatos.memocodificacion"
+       mayusculas required/>
+    </div>
+  </div>
+-->
+
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>

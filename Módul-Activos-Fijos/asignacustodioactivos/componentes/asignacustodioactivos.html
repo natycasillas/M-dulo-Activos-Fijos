@@ -1,0 +1,128 @@
+<div class="f-acciones-cabecera ui-g ui-fluid">
+  <acciones-cabecera [componente]="componentehijo" [grabar]="false" [cargar]="true"></acciones-cabecera>
+  <button *ngIf="!grabo" pButton type="button" label="Guardar" style="position: absolute; right: 115px;" class="f-btn teal-btn"
+    icon="ui-icon-save" (click)="guardarCambios()"></button>
+</div>
+
+<form #formFiltros="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+  <div class="ui-g-12 ui-g-nopad">
+
+    <div class="ui-g-12 ui-g-nopad">
+      <div class="ui-g-12 ui-md-2">
+        <label for="cegreso" class="ui-outputlabel ">Egreso</label>
+      </div>
+      <div class="ui-g-2 ui-md-2">
+        <input id="cegreso" name="cegreso" type="text" pInputText [(ngModel)]="cabeceraComponent.registro.cegreso" [readOnly]="true"
+        />
+      </div>
+
+      <div class="ui-g-1 ui-md-1">
+        <button pButton type="button" id="lovegresos" name="lovegresos" (click)="mostrarlovegresos()" icon="ui-icon-directions"></button>
+      </div>
+      <app-lov-egresos (eventoCliente)=fijarLovEgresosSelec($event)></app-lov-egresos>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12" style="clear:both;float:right;width:150px">
+      <app-jasper [componente]="componentehijo" [formulario]="formFiltros"></app-jasper>
+    </div>
+  </div>
+</form>
+
+<form #form="ngForm" class="f-filtros ui-g ui-fluid shadow-box ui-shadow-1">
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="fecha" class="ui-outputlabel required">Fecha</label>
+    </div>
+    <div class="ui-g-12 ui-md-2">
+      <p-calendar id="fecha" name="fecha" [(ngModel)]="cabeceraComponent.registro.fecha" [showIcon]="true" [dateFormat]="formatofecha" 
+      [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es" required></p-calendar>
+    </div>
+  </div>
+  <!-- <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="numeromemo" class="ui-outputlabel required">Doc. Autorización</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numeromemo" name="numeromemo" required maxlength="30" [(ngModel)]="cabeceraComponent.registro.numeromemo"
+        mayusculas/>
+    </div>
+    <div class="ui-g-12 ui-md-1">
+      <label for="numerooficio" class="ui-outputlabel required">Doc. Requerimiento</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="numerooficio" name="numerooficio" required maxlength="30" [(ngModel)]="cabeceraComponent.registro.numerooficio"
+        mayusculas />
+    </div>
+  </div> -->
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="tipoegresocdetalle" class="ui-outputlabel required">Tipo de Egreso</label>
+    </div>
+    <div class="ui-g-12 ui-md-4">
+      <input type="text" pInputText id="tipoegresocdetalle" name="tipoegresocdetalle"  [(ngModel)]="cabeceraComponent.registro.tipoegresocdetalle"
+        mayusculas [disabled]="true" />
+    </div>
+
+  </div>
+  <div class="ui-g-12 ui-md-1">
+    <label for="uavala" class="ui-outputlabel required">Usuario AF</label>
+  </div>
+  <div class="ui-g-12 ui-md-1">
+    <input type="text" pInputText id="nfuncionario" name="nfuncionario"  [(ngModel)]="cabeceraComponent.registro.cusuariorecibe"
+    mayusculas />
+  </div>
+  <div class="ui-g-12 ui-md-3">
+      <input id="uavala" name="uavala" type="text" pInputText 
+      [(ngModel)]="cabeceraComponent.registro.mdatos.nfuncionario" [readOnly]="true"/>  
+  </div>
+  <div class="ui-g-12 ui-md-1">
+      <button pButton type="button" id="lovFuncionarioAvala" name="lovFuncionarioAvala" (click)="mostrarLovFuncionario()" 
+      icon="ui-icon-directions"></button>
+  </div>
+  <app-lov-funcionarios  (eventoCliente)=fijarLovFuncionario($event)></app-lov-funcionarios>
+
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-2">
+      <label for="comentario" class="ui-outputlabel required">Comentario</label>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad">
+    <div class="ui-g-12 ui-md-12">
+      <textarea pInputText id="comentario" name="comentario" [(ngModel)]="cabeceraComponent.registro.comentario" required mayusculas
+        maxlength="500" rows="1" [disabled]="!editable"></textarea>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="ccompcontable" class="ui-outputlabel">Comprobante Contable</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="ccompcontable" name="ks" [(ngModel)]="mcampos.ccomprobante" [readOnly]="true" />
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-g-nopad" *ngIf="mcampos.ccomprobante !== undefined">
+    <div class="ui-g-4 ui-g-nopad">
+      <div class="ui-g-4 ui-md-4">
+        <label for="numerocomprobantecesantia" class="ui-outputlabel">Comprobante Cesantía</label>
+      </div>
+      <div class="ui-g-8 ui-md-8">
+        <input pInputText id="numerocomprobantecesantia" name="numerocomprobantecesantia" [(ngModel)]="mcampos.numerocomprobantecesantia"
+          [readOnly]="true" />
+      </div>
+    </div>
+  </div>
+  <app-cabecera></app-cabecera>
+  <div>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Detalle Productos">
+        <app-detalle (calcularTotalesEvent)="calcularTotales()"></app-detalle>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+</form>
